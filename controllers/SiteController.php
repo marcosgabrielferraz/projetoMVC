@@ -20,9 +20,11 @@ class SiteController extends Controller
 {
     public function home()
     {
-        return $this->render('home');
+        return $this->render('home', [
+            'name' => 'TheCodeholic'
+        ]);
     }
-
+    
     public function login()
     {
         $this->setLayout('auth');
