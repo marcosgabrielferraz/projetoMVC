@@ -4,10 +4,10 @@
  * Date: 7/8/2020
  * Time: 9:15 AM
  */
-
 namespace app\models;
 
 
+use app\core\DbModel;
 use app\core\Model;
 
 /**
@@ -17,12 +17,23 @@ use app\core\Model;
  * @package app\models
  */
 class Register extends Model
+class User extends DbModel
 {
     public string $firstname = '';
     public string $lastname = '';
     public string $email = '';
     public string $password = '';
     public string $passwordConfirm = '';
+
+    public static function tableName(): string
+    {
+        return 'users';
+    }
+
+    public function attributes(): array
+    {
+        return ['firstname', 'lastname', 'email', 'password'];
+    }
 
     public function rules()
     {
@@ -34,7 +45,6 @@ class Register extends Model
             'passwordConfirm' => [[self::RULE_MATCH, 'match' => 'password']],
         ];
     }
-
     public function register()
     {
         return true;
