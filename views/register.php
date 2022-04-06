@@ -25,4 +25,8 @@
         <input type="password" class="form-control" name="password">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group">
+        <label>Password Confirm</label>
+        <input type="password" class="form-control" name="passwordConfirm">
+    </div>
 </form>
