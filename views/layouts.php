@@ -42,6 +42,11 @@
     </div>
 </nav>
 <div class="container">
+    <?php if (\app\core\Application::$app->session->getFlash('success')): ?>
+        <div class="alert alert-success">
+            <p><?php echo \app\core\Application::$app->session->getFlash('success') ?></p>
+        </div>
+    <?php endif; ?>
     {{content}}
 </div>
 <!-- Optional JavaScript -->

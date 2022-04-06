@@ -21,7 +21,8 @@ class Application
     public Response $reponse;
     public Controller $controller;
     public Database $db;
-    
+    public Session $session;
+
     public function __construct($rootDir, $config)
     {
       self::$ROOT_DIR = $rootDir
@@ -30,6 +31,7 @@ class Application
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
         $this->db = new Database($config['db']);
+        $this->session = new Session();
     }
 
     public function run()
