@@ -14,13 +14,16 @@ namespace app\core;
  */
 class Application
 {
+    poblic static string $ROOT_DIR;
     public Router $router;
     public Request $request;
     public Response $reponse;
-    public function __construct()
+
+    public function __construct($rootDir)
     {
-        $this->request = new request();
-        $this->request = new Request($this->request);
+
+      self: :$ROOT_DIR = $rootDir
+        $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
     }
