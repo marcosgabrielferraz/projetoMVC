@@ -45,8 +45,9 @@ class User extends DbModel
             'passwordConfirm' => [[self::RULE_MATCH, 'match' => 'password']],
         ];
     }
-    public function register()
+    public function save()
     {
-        return true;
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        return parent::save();
     }
 }
