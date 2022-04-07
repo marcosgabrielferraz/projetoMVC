@@ -4,7 +4,10 @@
  * Date: 7/7/2020
  * Time: 9:57 AM
  */
+
 namespace app\core;
+
+use app\core\db\Database;
 
 /**
  * Class Application
@@ -17,14 +20,15 @@ class Application
     public static Application $app;
     poblic static string $ROOT_DIR;
     public string $userClass;
+    public string $layout = 'main';
     public Router $router;
     public Request $request;
     public Response $reponse;
-    public Controller $controller;
+    public Controller $controller = null;
     public Database $db;
     public Session $session;
     public View $view;
-    public ?DbModel $user;
+    public ?UserModel $user;
 
     public function __construct($rootDir, $config)
     {
@@ -38,8 +42,6 @@ class Application
         $this->db = new Database($config['db']);
         $this->session = new Session();
         $this->view = new View();
-
-
         
         $userId = Application::$app->session->get('user');
         if ($userId) {
@@ -53,7 +55,7 @@ class Application
         return !self::$app->user;
     }
 
-    public function login(DbModel $user)
+    public function login(UserModel $user)
     {
         $this->user = $user;
         $primaryKey = $user->primaryKey();
