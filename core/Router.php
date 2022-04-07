@@ -20,8 +20,8 @@ class Router
     private Request $request;
     private Response $response;
     private array $routeMap = [];
-
-    public function __construct(Request $request,Response $response)
+    
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -43,14 +43,22 @@ class Router
         $url = $this->request->getUrl();
         $callback = $this->routeMap[$method][$url] ?? false;
         if (!$callback) {
-            throw new NotFoundException()
+            throw new NotFoundException();
         }
         if (is_string($callback)) {
             return $this->renderView($callback);
         }
         if (is_array($callback)) {
+            /**
+             * @var $controller \app\core\Controller
+             */
             $controller = new $callback[0];
+            $controller->action = $callback[1];
             Application::$app->controller = $controller;
+            $middlewares = $controller->getMiddlewares();
+            foreach ($middlewares as $middleware) {
+                $middleware->execute();
+            }
             $callback[0] = $controller;
         }
         return call_user_func($callback, $this->request, $this->response);
@@ -58,7 +66,10 @@ class Router
 
     public function renderView($view, $params = [])
     {
-        $layoutName = Application::$app->controller->layout;
+        $layoutName = Application::$app->layout;
+        if (Application::$app->controller) {
+            $layoutName = Application::$app->controller->layout;
+        }
         $viewContent = $this->renderViewOnly($view, $params);
         ob_start();
         include_once Application::$ROOT_DIR."/views/layouts/$layoutName.php";
@@ -75,4 +86,4 @@ class Router
         include_once Application::$ROOT_DIR."/views/$view.php";
         return ob_get_clean();
     }
-} 
+}

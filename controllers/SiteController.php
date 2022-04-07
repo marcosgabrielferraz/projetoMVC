@@ -8,7 +8,8 @@
 namespace app\controllers;
 
 
-use app\core\Application
+use app\core\Application;
+use app\core\AuthMiddleware;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
@@ -23,14 +24,19 @@ use app\models\User;
  */
 class SiteController extends Controller
 {
+    public function __construct()
+    {
+        $this->registerMiddleware(new AuthMiddleware(['profile']));
+    }
+
     public function home()
     {
         return $this->render('home', [
             'name' => 'TheCodeholic'
         ]);
     }
-    
-    public function login()
+
+    public function login(Request $request)
     {
         $loginForm = new LoginForm();
         if ($request->getMethod() === 'post') {
@@ -56,7 +62,7 @@ class SiteController extends Controller
                 Application::$app->response->redirect('/');
                 return 'Show success page';
             }
-            
+
         }
         $this->setLayout('auth');
         return $this->render('register', [
@@ -74,4 +80,8 @@ class SiteController extends Controller
     {
         return $this->render('contact');
     }
-} 
+    public function profile()
+    {
+        return $this->render('profile');
+    }
+}

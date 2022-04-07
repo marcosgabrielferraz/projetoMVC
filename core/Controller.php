@@ -18,6 +18,7 @@ class Controller
 {
     public function render($view, $params = [])
     public string $layout = 'main';
+    public string $action = '';
     public function setLayout($layout): void
     {
         $this->layout = $layout;
