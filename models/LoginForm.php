@@ -7,8 +7,9 @@
 namespace app\models;
 
 
-use app\core\Application;
-use app\core\Model;
+
+use thecodeholic\phpmvc\Application;
+use thecodeholic\phpmvc\Model;
 
 /**
  * Class LoginForm
