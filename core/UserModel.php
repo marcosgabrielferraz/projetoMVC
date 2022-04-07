@@ -2,26 +2,19 @@
 /**
  * User: TheCodeholic
  * Date: 7/25/2020
- * Time: 10:00 AM
+ * Time: 10:13 AM
  */
 
 namespace app\core;
 
 
 /**
- * Class User
+ * Class UserModel
  *
  * @author  Zura Sekhniashvili <zurasekhniashvili@gmail.com>
  * @package app\core
  */
-class User
-{
-    public function __construct()
+abstract class UserModel extends DbModel
     {
+    abstract public function getDisplayName(): string;
     }
-
-    public function login(DbModel $user)
-    {
-
-    }
-}
