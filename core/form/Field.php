@@ -16,14 +16,11 @@ use app\core\Model;
  * @author  Zura Sekhniashvili <zurasekhniashvili@gmail.com>
  * @package core\form
  */
-class Field
+class Field extends BaseField
 {
     const TYPE_TEXT = 'text';
     const TYPE_PASSWORD = 'password';
-
-    public Model $model;
-    public string $attribute;
-    public string $type;
+    const TYPE_FILE = 'file';
 
     /**
      * Field constructor.
@@ -34,20 +31,12 @@ class Field
     public function __construct(Model $model, string $attribute)
     {
         $this->type = self::TYPE_TEXT;
-        $this->model = $model;
-        $this->attribute = $attribute;
+        parent::__construct($model, $attribute);
     }
-
-    public function __toString()
+    
+    public function renderInput()
     {
-        return sprintf('<div class="form-group">
-                <label>%s</label>
-                <input type="%s" class="form-control%s" name="%s" value="%s">
-                <div class="invalid-feedback">
-                    %s
-                </div>
-            </div>',
-            $this->model->labels()[$this->attribute],
+        return sprintf('<input type="%s" class="form-control%s" name="%s" value="%s">',
             $this->type,
             $this->model->hasError($this->attribute) ? ' is-invalid' : '',
             $this->attribute,
@@ -59,6 +48,12 @@ class Field
     public function passwordField()
     {
         $this->type = self::TYPE_PASSWORD;
+        return $this;
+    }
+
+    public function fileField()
+    {
+        $this->type = self::TYPE_FILE;
         return $this;
     }
 } 
