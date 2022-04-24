@@ -43,4 +43,3 @@ RUN chown -R www-data:www-data /var/www
 
 # Start Apache in foreground
 CMD ["apache2-foreground"]
-
